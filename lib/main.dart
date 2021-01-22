@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 
+// Userクラスの定義
 class User {
-  final String id;
-  final String iconUrl;
-  User({this.id, this.iconUrl});
+  final String id; // メンバ変数
+  final String iconUrl; // メンバ変数
+  User({this.id, this.iconUrl}); // メンバ関数
   factory User.fromJson(Map<String, dynamic> json) {
+    // JSONで値を返す
     return User(
       id: json['id'],
       iconUrl: json['profile_image_url'],
@@ -19,14 +21,16 @@ class User {
   }
 }
 
+// Articleクラスの定義
 class Article {
-  final String title;
-  final String url;
-  final User user;
+  final String title; // メンバ変数
+  final String url; // メンバ変数
+  final User user; // メンバ変数
 
-  Article({this.title, this.url, this.user});
+  Article({this.title, this.url, this.user}); // メンバ関数
 
   factory Article.fromJson(Map<String, dynamic> json) {
+    // JSONで値を返す
     return Article(
       title: json['title'],
       url: json['url'],
@@ -35,6 +39,7 @@ class Article {
   }
 }
 
+// QiitaClientクラスの定義
 class QiitaClient {
   static Future<List<Article>> fetchArticle() async {
     final url = 'https://qiita.com/api/v2/items';
@@ -48,7 +53,7 @@ class QiitaClient {
   }
 }
 
-// ListView
+// ListView (ArticleListViewクラスの定義)
 class ArticleListView extends StatelessWidget {
   final List<Article> articles;
   ArticleListView({Key key, this.articles}) : super(key: key);
@@ -76,7 +81,7 @@ class ArticleListView extends StatelessWidget {
   }
 }
 
-//
+// ArticleDetailPageクラスの定義
 class ArticleDetailPage extends StatelessWidget {
   final Article article;
 
@@ -100,7 +105,7 @@ class ArticleDetailPage extends StatelessWidget {
   }
 }
 
-//
+// mainクラス
 class ArticleListPage extends StatelessWidget {
   final Future<List<Article>> articles = QiitaClient.fetchArticle();
 
