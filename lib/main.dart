@@ -9,22 +9,22 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 // mainクラス
 void main() {
-  runApp(ArticleListPage());
+  runApp(MyHomePage());
 }
 
-class ArticleListPage extends StatelessWidget {
-  final Future<List<Article>> articles = QiitaClient.fetchArticle();
+class MyHomePage extends StatelessWidget {
+  final Future<List<Article>> articles = ConnpassClient.fetchArticle();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Fetch Data Example',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Qiita API '),
+          title: Text('Connpass API '),
         ),
         body: Center(
           child: FutureBuilder<List<Article>>(
@@ -39,52 +39,6 @@ class ArticleListPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// Userクラスの定義
-class User {
-  final String id; // メンバ変数
-  final String iconUrl; // メンバ変数
-  User({this.id, this.iconUrl}); // メンバ関数
-  factory User.fromJson(Map<String, dynamic> json) {
-    // JSONで値を返す
-    return User(
-      id: json['id'],
-      iconUrl: json['profile_image_url'],
-    );
-  }
-}
-
-// Articleクラスの定義
-class Article {
-  final String title; // メンバ変数
-  final String url; // メンバ変数
-  final User user; // メンバ変数
-
-  Article({this.title, this.url, this.user}); // メンバ関数
-
-  factory Article.fromJson(Map<String, dynamic> json) {
-    // JSONで値を返す
-    return Article(
-      title: json['title'],
-      url: json['url'],
-      user: User.fromJson(json['user']),
-    );
-  }
-}
-
-// QiitaClientクラスの定義
-class QiitaClient {
-  static Future<List<Article>> fetchArticle() async {
-    final url = 'https://qiita.com/api/v2/items';
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonArray = json.decode(response.body);
-      return jsonArray.map((json) => Article.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load article');
-    }
   }
 }
 
@@ -132,10 +86,72 @@ class ArticleDetailPage extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: WebView(
-            initialUrl: article.url,
+            initialUrl: article.event_url,
           ),
         ),
       ),
     );
+  }
+}
+
+// Userクラスの定義
+class User {
+  final String id; // メンバ変数
+  // final String iconUrl; // メンバ変数
+
+  User({
+    this.id,
+    // this.iconUrl
+  }); // メンバ関数
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    // JSONで値を返す
+    return User(
+      id: json['id'],
+      // iconUrl: json['profile_image_url'],
+    );
+  }
+}
+
+// Articleクラスの定義
+class Article {
+  final String title; // メンバ変数
+  final String event_url; // メンバ変数
+  final User user; // メンバ変数
+  final events;
+
+  Article({
+    this.title,
+    this.event_url,
+    this.user,
+    this.events,
+  }); // メンバ関数
+
+  factory Article.fromJson(Map<String, dynamic> json) {
+    // JSONで値を返す
+    return Article(
+      title: json['title'],
+      event_url: json['event_url'],
+      user: User.fromJson(json['user']),
+      events: json['events'],
+    );
+  }
+}
+
+// ConnpassClientクラスの定義
+// APIの呼び出し
+class ConnpassClient {
+  static Future<List<Article>> fetchArticle() async {
+    final url = 'https://connpass.com/api/v1/event';
+
+    // final url = 'https://qiita.com/api/v2/items';
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonArray = json.decode(response.body);
+      return jsonArray.map((json) => Article.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load article');
+    }
   }
 }
