@@ -55,7 +55,7 @@ class ArticleListView extends StatelessWidget {
         final article = articles[index];
         return ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(article.user.iconUrl),
+              backgroundImage: NetworkImage(article.eventUrl),
             ),
             title: Text(article.title),
             onTap: () {
@@ -86,7 +86,7 @@ class ArticleDetailPage extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: WebView(
-            initialUrl: article.event_url,
+            initialUrl: article.eventUrl,
           ),
         ),
       ),
@@ -95,45 +95,59 @@ class ArticleDetailPage extends StatelessWidget {
 }
 
 // Userクラスの定義
-class User {
-  final String id; // メンバ変数
-  // final String iconUrl; // メンバ変数
-
-  User({
-    this.id,
-    // this.iconUrl
-  }); // メンバ関数
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    // JSONで値を返す
-    return User(
-      id: json['id'],
-      // iconUrl: json['profile_image_url'],
-    );
-  }
-}
+// class User {
+//   final String id; // メンバ変数
+//   // final String iconUrl; // メンバ変数
+//
+//   User({
+//     this.id,
+//     // this.iconUrl
+//   }); // メンバ関数
+//
+//   factory User.fromJson(Map<String, dynamic> json) {
+//     // JSONで値を返す
+//     return User(
+//       id: json['id'],
+//       // iconUrl: json['profile_image_url'],
+//     );
+//   }
+// }
 
 // Articleクラスの定義
 class Article {
-  final String title; // メンバ変数
-  final String event_url; // メンバ変数
-  final User user; // メンバ変数
-  final events;
+  // final String title; // メンバ変数
+  // final String event_url; // メンバ変数
+  // final User user; // メンバ変数
+  // final events;
+
+  final int eventId;
+  final String title;
+  final String catchMessage;
+  final String eventUrl;
 
   Article({
+    this.eventId,
     this.title,
-    this.event_url,
-    this.user,
-    this.events,
+    this.catchMessage,
+    this.eventUrl,
+    // this.title,
+    // this.event_url,
+    // this.user,
+    // this.events,
   }); // メンバ関数
 
   factory Article.fromJson(Map<String, dynamic> json) {
     // JSONで値を返す
     return Article(
+      eventId: json['event_id'],
       title: json['title'],
-      event_url: json['event_url'],
-      user: User.fromJson(json['user']),
-      events: json['events'],
+      catchMessage: json['catch'],
+      eventUrl: json['event_url'],
+      // user: User.fromJson(json['user']),
+      // title: json['title'],
+      // event_url: json['event_url'],
+      // user: User.fromJson(json['user']),
+      // events: json['events'],
     );
   }
 }
