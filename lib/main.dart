@@ -95,23 +95,23 @@ class ArticleDetailPage extends StatelessWidget {
 }
 
 // Userクラスの定義
-// class User {
-//   final String id; // メンバ変数
-//   // final String iconUrl; // メンバ変数
-//
-//   User({
-//     this.id,
-//     // this.iconUrl
-//   }); // メンバ関数
-//
-//   factory User.fromJson(Map<String, dynamic> json) {
-//     // JSONで値を返す
-//     return User(
-//       id: json['id'],
-//       // iconUrl: json['profile_image_url'],
-//     );
-//   }
-// }
+class User {
+  final String id; // メンバ変数
+  // final String iconUrl; // メンバ変数
+
+  User({
+    this.id,
+    // this.iconUrl
+  }); // メンバ関数
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    // JSONで値を返す
+    return User(
+      id: json['id'],
+      // iconUrl: json['profile_image_url'],
+    );
+  }
+}
 
 // Articleクラスの定義
 class Article {
