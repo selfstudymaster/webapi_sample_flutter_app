@@ -54,9 +54,9 @@ class ArticleListView extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final article = articles[index];
         return ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(article.eventUrl),
-            ),
+            // leading: CircleAvatar(
+            // backgroundImage: NetworkImage(article.eventUrl),
+            // ),
             title: Text(article.title),
             onTap: () {
               Navigator.push(
@@ -73,45 +73,69 @@ class ArticleListView extends StatelessWidget {
 // ArticleDetailPageクラスの定義
 class ArticleDetailPage extends StatelessWidget {
   final Article article;
+  final int eventId;
+  final String catchMessage;
+  final String title;
+  final String event_url;
 
-  ArticleDetailPage({Key key, this.article}) : super(key: key);
+  ArticleDetailPage(
+      {Key key,
+      @required this.article,
+      this.eventId,
+      this.catchMessage,
+      this.title,
+      this.event_url})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('イベント詳細'),
       ),
-      home: Scaffold(
-        body: Center(
-          child: WebView(
-            initialUrl: article.eventUrl,
-          ),
+      body: Container(
+        child: WebView(
+          initialUrl: article.title,
         ),
       ),
     );
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     title: 'Fetch Data Example',
+  //     theme: ThemeData(
+  //       primarySwatch: Colors.blue,
+  //     ),
+  //     home: Scaffold(
+  //       body: Center(
+  //         child: WebView(
+  //           initialUrl: article.eventUrl,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 // Userクラスの定義
-class User {
-  final String id; // メンバ変数
-  // final String iconUrl; // メンバ変数
-
-  User({
-    this.id,
-    // this.iconUrl
-  }); // メンバ関数
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    // JSONで値を返す
-    return User(
-      id: json['id'],
-      // iconUrl: json['profile_image_url'],
-    );
-  }
-}
+// class User {
+//   final String id; // メンバ変数
+//   // final String iconUrl; // メンバ変数
+//
+//   User({
+//     this.id,
+//     // this.iconUrl
+//   }); // メンバ関数
+//
+//   factory User.fromJson(Map<String, dynamic> json) {
+//     // JSONで値を返す
+//     return User(
+//       id: json['id'],
+//       // iconUrl: json['profile_image_url'],
+//     );
+//   }
+// }
 
 // Articleクラスの定義
 class Article {
